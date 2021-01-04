@@ -65,10 +65,10 @@ var writeQueue chan WriteJob
 func main() {
 	confByte, err := ioutil.ReadFile("./config.json")
 	if err != nil {
-		log.Fatal(err)
+		CommonError(err)
 	}
 	if err = json.Unmarshal(confByte, &conf); err != nil {
-		log.Fatal(err)
+		CommonError(err)
 	}
 	if conf.ThreadNum < 1 || conf.ThreadNum > runtime.NumCPU() {
 		conf.ThreadNum = runtime.NumCPU()
@@ -76,13 +76,13 @@ func main() {
 	list, err := ioutil.ReadFile("list.txt")
 	if err != nil {
 		if os.IsNotExist(err) {
-			log.Fatal("list.txt Not Found")
+			CommonError("list.txt Not Found")
 		}
-		log.Fatal(err)
+		CommonError(err)
 	}
 	listStr := strings.TrimSpace(string(list))
 	if listStr == "" {
-		log.Fatal("Empty List")
+		CommonError("Empty List")
 	}
 	galleryUrls := Unique(strings.Split(listStr, Eol()))
 	if conf.Socks != "" {
@@ -328,4 +328,10 @@ func Eol() string {
 	} else {
 		return "\n"
 	}
+}
+
+func CommonError(msg interface{}) {
+	log.Println(msg)
+	_, _ = fmt.Scanf("wait")
+	os.Exit(1)
 }
