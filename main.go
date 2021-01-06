@@ -118,7 +118,7 @@ func main() {
 	for i := 0; ; i++ {
 		gallery := <-galleryQueue
 		DownloadGallery(gallery, i, len(galleryUrls), conf)
-		if gallery.Url == galleryUrls[i] {
+		if gallery.Url == galleryUrls[len(galleryUrls)-1] {
 			break
 		}
 	}
