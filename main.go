@@ -5,9 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/valyala/fasthttp"
-	"github.com/valyala/fasthttp/fasthttpproxy"
-	_ "golang.org/x/image/webp"
 	"io/ioutil"
 	"log"
 	"os"
@@ -16,6 +13,10 @@ import (
 	"strconv"
 	"strings"
 	"sync/atomic"
+
+	"github.com/valyala/fasthttp"
+	"github.com/valyala/fasthttp/fasthttpproxy"
+	_ "golang.org/x/image/webp"
 )
 
 type Conf struct {
