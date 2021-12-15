@@ -270,7 +270,6 @@ func ImageUrl(img Image) string {
 	var retval string
 	subDomain := "a"
 	directory := "images"
-	var numberOfFrontends int64 = 3
 
 	h1 := img.Hash[len(img.Hash)-1:]
 	h2 := img.Hash[len(img.Hash)-3 : len(img.Hash)-1]
@@ -290,16 +289,12 @@ func ImageUrl(img Image) string {
 
 	g, err := strconv.ParseInt(h2, 16, 64)
 	if err == nil {
-		if g < 0x30 {
-			numberOfFrontends = 2
+		o := 0
+		if g < 0x7c {
+			o = 1
 		}
-		if g < 0x09 {
-			g = 1
-		}
-		char := 97 + g%numberOfFrontends
-		subDomain = string(char) + retval
+		subDomain = string(97+o) + retval
 	}
-
 	return "https://" + subDomain + ".hitomi.la/" + directory + "/" + h1 + "/" + h2 + "/" + img.Hash + ext
 }
 
